@@ -23,6 +23,8 @@ namespace GitTfs.Commands
         public bool NoFetch { get; set; }
         public bool DontCreateGitBranch { get; set; }
 
+        public string TfsPathParentBranch { get; set; }
+
         public IGitTfsRemote RemoteCreated { get; private set; }
 
         public InitBranch(Globals globals, Help helper, AuthorsFile authors)
@@ -101,7 +103,7 @@ namespace GitTfs.Commands
                 return GitTfsExitCodes.InvalidArguments;
             }
 
-            IList<RootBranch> creationBranchData = defaultRemote.Tfs.GetRootChangesetForBranch(tfsBranchPath);
+            IList<RootBranch> creationBranchData = defaultRemote.Tfs.GetRootChangesetForBranch(tfsBranchPath, -1, this.TfsPathParentBranch);
 
             IFetchResult fetchResult;
             InitBranchSupportingRename(tfsBranchPath, gitBranchNameExpected, creationBranchData, defaultRemote, out fetchResult);

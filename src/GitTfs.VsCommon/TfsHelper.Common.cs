@@ -254,23 +254,23 @@ namespace GitTfs.VsCommon
             if (lastChangesetIdToCheck == -1)
                 lastChangesetIdToCheck = int.MaxValue;
 
-            if (!string.IsNullOrWhiteSpace(tfsPathParentBranch))
-                Trace.WriteLine("Parameter about parent branch will be ignored because this version of TFS is able to find the parent!");
-
-            Trace.WriteLine("Looking to find branch '" + tfsPathBranchToCreate + "' in all TFS branches...");
-            string tfsParentBranch;
-            if (!AllTfsBranches.TryGetValue(tfsPathBranchToCreate, out tfsParentBranch))
+            if (string.IsNullOrWhiteSpace(tfsPathParentBranch))
             {
-                throw new GitTfsException("error: TFS branches " + tfsPathBranchToCreate + " not found!");
-            }
+                Trace.WriteLine("Looking to find branch '" + tfsPathBranchToCreate + "' in all TFS branches...");
+                string tfsParentBranch;
+                if (!AllTfsBranches.TryGetValue(tfsPathBranchToCreate, out tfsParentBranch))
+                {
+                    throw new GitTfsException("error: TFS branches " + tfsPathBranchToCreate + " not found!");
+                }
 
-            if (tfsParentBranch == null)
-            {
-                Trace.WriteLine("There is no parent branch for " + tfsPathBranchToCreate + ". Ignoring.");
-                return;
-            }
+                if (tfsParentBranch == null)
+                {
+                    Trace.WriteLine("There is no parent branch for " + tfsPathBranchToCreate + ". Ignoring.");
+                    return;
+                }
 
-            tfsPathParentBranch = tfsParentBranch;
+                tfsPathParentBranch = tfsParentBranch;
+            }
             Trace.WriteLine("Found parent branch : " + tfsPathParentBranch);
 
 

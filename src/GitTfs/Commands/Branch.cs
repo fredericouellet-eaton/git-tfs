@@ -39,6 +39,7 @@ namespace GitTfs.Commands
         public string Comment { get; set; }
         public string TfsUsername { get; set; }
         public string TfsPassword { get; set; }
+        public string TfsPathParentBranch { get; set; }
 
         public OptionSet OptionSet
         {
@@ -60,6 +61,7 @@ namespace GitTfs.Commands
                     { "no-fetch", "Don't fetch changeset for newly initialized branch(es)", v => NoFetch = (v != null) },
                     { "u|username=", "TFS username", v => TfsUsername = v },
                     { "p|password=", "TFS password", v => TfsPassword = v },
+                    { "tfs-parent-branch=", "TFS Parent branch", v => TfsPathParentBranch = v },
                 }
                 .Merge(_globals.OptionSet);
             }
@@ -82,6 +84,7 @@ namespace GitTfs.Commands
             _initBranch.IgnoreRegex = IgnoreRegex;
             _initBranch.ExceptRegex = ExceptRegex;
             _initBranch.NoFetch = NoFetch;
+            _initBranch.TfsPathParentBranch = this.TfsPathParentBranch;
         }
 
         public bool IsCommandWellUsed()
